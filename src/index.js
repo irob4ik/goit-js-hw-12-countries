@@ -1,13 +1,8 @@
 import './sass/main.scss';
 
-import '@pnotify/core/dist/BrightTheme.css';
-import '@pnotify/core/dist/Material.css';
-import 'material-design-icons/iconfont/material-icons.css';
-import { defaults } from '@pnotify/core';
-defaults.styling = 'material';
-defaults.icons = 'material';
-import { alert, notice, info, success, error } from '@pnotify/core';
-
+import { error } from '@pnotify/core';
+import "../node_modules/@pnotify/core/dist/PNotify.css";
+import "../node_modules/@pnotify/core/dist/BrightTheme.css";
 
 import countryInfo from './templates/country-info.hbs';
 import countryList from './templates/country-list.hbs';
@@ -25,11 +20,15 @@ refs.searchForm.addEventListener('input', _.debounce(onSearchType, 500));
 
 function onSearchType(e) {
     clearMarkup();
+    error.remove;
     e.preventDefault();
     const sQuery = e.target.value;
 
     if (sQuery.trim() === '') {
-        return;
+        return error({
+            text: "Please type text",
+            delay: 1500
+        });
     }
 
     fetchCountries(sQuery).then(createMarkup);
@@ -46,7 +45,17 @@ function createMarkup(list) {
         return markup(list, countryInfo);
     }
 
-    return console.log("foooo");
+    if (numOfCountries > 10) {
+        return error({
+            text: "Too many matches..",
+            delay: 1500
+        });
+    }
+
+    return error({
+        text: "Country not found",
+        delay: 1500
+    });
 } 
 
 function markup(list, mark) {
