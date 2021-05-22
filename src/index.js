@@ -20,7 +20,6 @@ refs.searchForm.addEventListener('input', _.debounce(onSearchType, 500));
 
 function onSearchType(e) {
     clearMarkup();
-    error.remove;
     e.preventDefault();
     const sQuery = e.target.value;
 
