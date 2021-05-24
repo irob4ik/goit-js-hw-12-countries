@@ -30,13 +30,13 @@ function onSearchType(e) {
         });
     }
 
-    fetchCountries(sQuery).then(createMarkup);
+    fetchCountries(sQuery).then(createMarkup).catch(onError);
 }
 
 function createMarkup(list) {
     const numOfCountries = list.length;
 
-    if (numOfCountries > 2 && numOfCountries < 10) {
+    if (numOfCountries >= 2 && numOfCountries <= 10) {
         return markup(list, countryList);
     }
 
@@ -50,11 +50,6 @@ function createMarkup(list) {
             delay: 1500
         });
     }
-
-    return error({
-        text: "Country not found",
-        delay: 1500
-    });
 } 
 
 function markup(list, mark) {
@@ -64,4 +59,11 @@ function markup(list, mark) {
 
 function clearMarkup() {
     refs.countryContainer.innerHTML = "";
+}
+
+function onError() {
+    return error({
+        text: "Country not found",
+        delay: 1500
+    });
 }

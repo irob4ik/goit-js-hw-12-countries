@@ -1,8 +1,8 @@
 export default function fetchCountries(searchQuery) {
     const url = 'https://restcountries.eu/rest/v2/name/';
     return fetch(url + searchQuery)
-        .then(response => response.json())
-        .then(data => {
-            return data;
-        });        
+        .then(response => {
+            if (response.ok) return response.json();
+        })        
+        .catch();
 }
